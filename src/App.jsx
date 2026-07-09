@@ -8,6 +8,7 @@ import PoemPage from './components/PoemPage';
 import GardenPage from './components/GardenPage';
 import LetterPage from './components/LetterPage';
 import EndingPage from './components/EndingPage';
+import HelpPage from './components/HelpPage';
 import { questions } from './data/constants';
 import './index.css';
 
@@ -74,6 +75,11 @@ function App() {
     reset();
   };
 
+  // 处理跳转到特定问题（修改已回答问题）
+  const handleGoToQuestion = (index) => {
+    setCurrentQuestionIndex(index);
+  };
+
   // 处理过渡页继续
   const handleTransitionContinue = () => {
     setCurrentPage('poem');
@@ -99,8 +105,50 @@ function App() {
     reset();
   };
 
+  // 处理打开帮助页
+  const handleOpenHelp = () => {
+    setCurrentPage('help');
+  };
+
+  // 处理关闭帮助页
+  const handleCloseHelp = () => {
+    setCurrentPage('landing');
+  };
+
+  // 帮助按钮组件（显示在多个页面右上角）
+  const HelpButton = () => (
+    <button
+      onClick={handleOpenHelp}
+      style={{
+        position: 'fixed',
+        top: '20px',
+        right: '20px',
+        background: 'rgba(196, 149, 106, 0.1)',
+        border: '1px solid rgba(196, 149, 106, 0.3)',
+        borderRadius: '20px',
+        padding: '8px 16px',
+        fontSize: '13px',
+        color: '#C4956A',
+        cursor: 'pointer',
+        transition: 'all 0.2s',
+        zIndex: 100
+      }}
+      onMouseOver={(e) => {
+        e.target.style.background = 'rgba(196, 149, 106, 0.2)';
+      }}
+      onMouseOut={(e) => {
+        e.target.style.background = 'rgba(196, 149, 106, 0.1)';
+      }}
+    >
+      需要帮助？
+    </button>
+  );
+
   return (
     <div className="min-h-screen">
+      {/* 帮助按钮 - 在非帮助页面显示 */}
+      {currentPage !== 'help' && currentPage !== 'crisis' && <HelpButton />}
+
       {/* 着陆页 */}
       {currentPage === 'landing' && (
         <LandingPage onStart={handleStart} />
@@ -120,6 +168,8 @@ function App() {
           onCrisis={handleCrisis}
           onYellow={handleYellow}
           addAnswer={addAnswer}
+          answers={answers}
+          onGoToQuestion={handleGoToQuestion}
         />
       )}
 
@@ -168,6 +218,11 @@ function App() {
           letter={generated.letter || ''}
           onRestart={handleRestart}
         />
+      )}
+
+      {/* 帮助页 */}
+      {currentPage === 'help' && (
+        <HelpPage onClose={handleCloseHelp} />
       )}
     </div>
   );

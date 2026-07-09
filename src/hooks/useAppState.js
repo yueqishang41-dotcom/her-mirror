@@ -30,11 +30,31 @@ export function useAppState() {
 
   // 添加回答
   const addAnswer = (questionId, answer, skipped = false) => {
-    setAnswers(prev => [...prev, {
-      id: questionId,
-      answer: answer || '(跳过)',
-      skipped: skipped || answer === ''
-    }]);
+    setAnswers(prev => {
+      // 检查是否已存在该问题的回答（修改模式）
+      const existing = prev.findIndex(a => a.id === questionId);
+      if (existing >= 0) {
+        // 更新已有回答
+        const newAnswers = [...prev];
+        newAnswers[existing] = {
+          id: questionId,
+          answer: answer || '(跳过)',
+          skipped: skipped || answer === ''
+        };
+        return newAnswers;
+      }
+      // 添加新回答
+      return [...prev, {
+        id: questionId,
+        answer: answer || '(跳过)',
+        skipped: skipped || answer === ''
+      }];
+    });
+  };
+
+  // 获取某个问题的回答
+  const getAnswer = (questionId) => {
+    return answers.find(a => a.id === questionId);
   };
 
   // 下一题
@@ -60,6 +80,7 @@ export function useAppState() {
     answers,
     setAnswers,
     addAnswer,
+    getAnswer,
     nextQuestion,
     generated,
     setGenerated,

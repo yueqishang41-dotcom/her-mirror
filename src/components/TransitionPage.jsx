@@ -4,6 +4,7 @@ import StarField from './StarField';
 export default function TransitionPage({ onContinue, setGenerated, answers }) {
   const [step, setStep] = useState(0);
   const [bgDark, setBgDark] = useState(false);
+  const [error, setError] = useState(null);
 
   const texts = [
     "谢谢你。",
@@ -37,20 +38,26 @@ export default function TransitionPage({ onContinue, setGenerated, answers }) {
           });
         } else {
           // API 失败，使用本地生成
+          setError('api_failed');
           setGenerated({
             poem: generateLocalPoem(answers),
             letter: generateLocalLetter(answers),
             loading: false,
-            error: null
+            error: 'api_failed'
           });
         }
-      } catch (error) {
+      } catch (err) {
         // 网络错误，使用本地生成
+        if (err.message.includes('network') || err.message.includes('fetch')) {
+          setError('network_off');
+        } else {
+          setError('api_failed');
+        }
         setGenerated({
           poem: generateLocalPoem(answers),
           letter: generateLocalLetter(answers),
           loading: false,
-          error: null
+          error: err.message
         });
       }
     }, 1200));
@@ -61,6 +68,12 @@ export default function TransitionPage({ onContinue, setGenerated, answers }) {
 
   // 本地生成函数（备用）
   const generateLocalPoem = (answers) => {
+    const validAnswers = answers.filter(a => !a.skipped && a.answer);
+
+    if (validAnswers.length === 0) {
+      return "你选择不说话，这也是一种回答。\n有时候，沉默本身就是一种力量。\n\n——这首诗的作者，是你自己。";
+    }
+
     const lines = [];
     const q1 = answers.find(a => a.id === 1);
     if (q1 && !q1.skipped) lines.push(`她说她小时候最爱 ${q1.answer}`);
@@ -77,8 +90,15 @@ export default function TransitionPage({ onContinue, setGenerated, answers }) {
   const generateLocalLetter = (answers) => {
     const date = new Date();
     const dateStr = `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`;
+
+    const validAnswers = answers.filter(a => !a.skipped && a.answer);
+
+    if (validAnswers.length === 0) {
+      return `嗨，是我。\n\n你选择不说话。\n那我就安静地陪着你。\n\n有时候，不需要说什么。\n你的沉默，我也听见了。\n\n你自己\n${dateStr}`;
+    }
+
     let letter = `嗨，是我。\n\n你刚才说了很多话。也许你觉得都是些小事。\n但我想告诉你，我都听见了。\n\n`;
-    answers.filter(a => !a.skipped).slice(0, 3).forEach(a => {
+    validAnswers.slice(0, 3).forEach(a => {
       letter += `你说 "${a.answer}"。\n`;
     });
     const q8 = answers.find(a => a.id === 8);
@@ -115,6 +135,25 @@ export default function TransitionPage({ onContinue, setGenerated, answers }) {
             {text}
           </p>
         ))}
+
+        {/* 优雅失败提示 */}
+        {error && step > texts.length && (
+          <p
+            style={{
+              fontSize: '15px',
+              color: bgDark ? 'rgba(212, 165, 116, 0.7)' : '#6B7280',
+              marginBottom: '24px',
+              lineHeight: '1.8',
+              opacity: 0,
+              animation: 'fadeIn 0.8s ease-out forwards',
+              textShadow: bgDark ? '0 0 10px rgba(212, 165, 116, 0.3)' : 'none'
+            }}
+          >
+            {error === 'network_off'
+              ? "网络好像断了。你的话已经被你看见。你可以继续往下走，截图保存你的回答。"
+              : "我暂时没法帮你整理了。但你的话已经被你看见。你可以继续往下走，截图保存这一页。"}
+          </p>
+        )}
 
         {step > texts.length && (
           <button
