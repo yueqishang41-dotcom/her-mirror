@@ -9,6 +9,7 @@ import GardenPage from './components/GardenPage';
 import LetterPage from './components/LetterPage';
 import EndingPage from './components/EndingPage';
 import HelpPage from './components/HelpPage';
+import AIAssistant from './components/AIAssistant';
 import { questions } from './data/constants';
 import './index.css';
 
@@ -224,6 +225,9 @@ function App() {
       {currentPage === 'help' && (
         <HelpPage onClose={handleCloseHelp} />
       )}
+
+      {/* AI 助手 - 在危机页以外显示 */}
+      {currentPage !== 'crisis' && <AIAssistant />}
     </div>
   );
 }
