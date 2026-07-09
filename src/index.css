@@ -1,0 +1,365 @@
+@import "tailwindcss";
+
+:root {
+  --warm-white: #FFFDF7;
+  --ink-blue: #0F1A2E;
+  --kraft: #F5E6D0;
+  --apricot: #C4956A;
+  --warm-gold: #D4A574;
+  --dark-brown: #3C2415;
+  --text: #2C2C2C;
+  --text-secondary: #6B7280;
+  --border: #E8E0D4;
+  --soft-pink: #E8B4B8;
+  --soft-purple: #B8A4D8;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body, #root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+body {
+  font-family: 'Noto Serif SC', Georgia, serif;
+  background: var(--warm-white);
+  color: var(--text);
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page-container {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.content-wrapper {
+  max-width: 480px;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* 更温柔的淡入动画 */
+.fade-in {
+  animation: fadeIn 1.2s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+/* 页面切换过渡 */
+.page-transition {
+  animation: pageIn 0.8s ease-out;
+}
+
+@keyframes pageIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 粒子效果 - 更柔和 */
+.particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: rgba(212, 165, 116, 0.35);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: float 8s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0) translateX(0); 
+    opacity: 0.25; 
+  }
+  50% { 
+    transform: translateY(-25px) translateX(10px); 
+    opacity: 0.5; 
+  }
+}
+
+/* 进度点 */
+.progress-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transition: all 0.4s ease;
+}
+
+/* 按钮 - 更圆润温柔 */
+.btn-primary {
+  display: inline-block;
+  padding: 14px 40px;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.35s ease;
+  border: 2px solid var(--apricot);
+  background: transparent;
+  color: var(--apricot);
+  letter-spacing: 0.5px;
+}
+
+.btn-primary:hover {
+  background: var(--apricot);
+  color: var(--warm-white);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(196, 149, 106, 0.3);
+}
+
+.btn-secondary {
+  display: inline-block;
+  padding: 14px 32px;
+  border-radius: 30px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.35s ease;
+  border: none;
+  background: var(--apricot);
+  color: var(--warm-white);
+  letter-spacing: 0.5px;
+}
+
+.btn-secondary:hover {
+  background: var(--dark-brown);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(60, 36, 21, 0.2);
+}
+
+.btn-text {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 8px;
+  transition: all 0.3s ease;
+}
+
+.btn-text:hover {
+  color: var(--apricot);
+}
+
+/* 输入框 */
+.text-input {
+  width: 100%;
+  min-height: 140px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1.8;
+  resize: vertical;
+  background: rgba(255, 252, 245, 0.9);
+  color: var(--text);
+  transition: all 0.3s ease;
+}
+
+.text-input:focus {
+  outline: none;
+  border-color: var(--apricot);
+  box-shadow: 0 0 0 4px rgba(196, 149, 106, 0.12);
+}
+
+.text-input::placeholder {
+  color: #999;
+  opacity: 0.7;
+}
+
+/* 卡片 */
+.card {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 4px 20px rgba(60, 36, 21, 0.06);
+}
+
+/* 热线卡片 */
+.crisis-card {
+  background: rgba(255, 252, 245, 0.98);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 22px;
+  margin-bottom: 14px;
+  transition: all 0.3s ease;
+}
+
+.crisis-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(60, 36, 21, 0.08);
+}
+
+/* 分隔线 */
+.divider {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--apricot), transparent);
+  margin: 36px auto;
+  border-radius: 1px;
+}
+
+/* 诗句样式 - 更浪漫 */
+.poem-line {
+  margin-bottom: 20px;
+  line-height: 2.4;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 信件样式 - 更温暖 */
+.letter-paper {
+  background: linear-gradient(135deg, #FFFCF5 0%, #FBF6EC 50%, #F5E6D0 100%);
+  border-radius: 20px;
+  padding: 36px 32px;
+  box-shadow: 
+    0 8px 32px rgba(60, 36, 21, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--border);
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+}
+
+.letter-paper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--soft-pink), var(--apricot), var(--warm-gold));
+  opacity: 0.6;
+}
+
+/* 花园容器 */
+.garden-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 32px 0;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.plant-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.35s ease;
+  padding: 12px;
+  border-radius: 16px;
+  background: rgba(255, 252, 245, 0.08);
+}
+
+.plant-item:hover {
+  transform: translateY(-4px) scale(1.05);
+  background: rgba(255, 252, 245, 0.15);
+}
+
+.plant-emoji {
+  font-size: 40px;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+}
+
+.plant-item:hover .plant-emoji {
+  transform: scale(1.15);
+}
+
+.plant-label {
+  font-size: 11px;
+  color: rgba(245, 230, 208, 0.7);
+  text-align: center;
+}
+
+/* 花园装饰 */
+.garden-decor {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.garden-glow {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232, 180, 184, 0.15) 0%, transparent 70%);
+  animation: glow 6s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.2); opacity: 0.8; }
+}
+
+/* 植物详情弹窗 */
+.plant-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 26, 46, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  backdrop-filter: blur(4px);
+}
+
+.plant-modal-content {
+  background: linear-gradient(135deg, #FFFCF5 0%, #F5E6D0 100%);
+  border-radius: 24px;
+  padding: 32px;
+  max-width: 360px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+  animation: modalIn 0.4s ease-out;
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@media (max-width: 480px) {
+  .page-container { padding: 32px 20px; }
+  .btn-primary { padding: 12px 32px; font-size: 15px; }
+  .garden-container { gap: 12px; padding: 20px 0; }
+  .plant-emoji { font-size: 32px; }
+}
