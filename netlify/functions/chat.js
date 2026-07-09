@@ -1,3 +1,4 @@
+// Netlify Function: AI Chat API
 export default async function handler(event) {
   if (event.httpMethod !== 'POST') {
     return {
