@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import StarField from './StarField';
 
 export default function TransitionPage({ onContinue, setGenerated, answers }) {
   const [step, setStep] = useState(0);
