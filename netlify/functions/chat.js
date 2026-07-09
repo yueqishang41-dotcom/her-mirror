@@ -8,7 +8,9 @@ export default async function handler(event) {
 
   try {
     const { messages } = JSON.parse(event.body);
-    const apiKey = process.env.DEEPSEEK_API_KEY;
+
+    // 直接配置 API Key（从环境变量获取，如果没有则使用默认值）
+    const apiKey = process.env.DEEPSEEK_API_KEY || 'sk-53cffa1db0044246b57851dbe6bea801';
 
     // 系统提示词 - 专为"自我沉默"女性设计
     const systemPrompt = `你是"小镜"，一个专为长期"自我沉默"女性设计的倾听与陪伴助手。

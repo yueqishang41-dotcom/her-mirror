@@ -10,8 +10,8 @@ export default async function handler(event) {
   try {
     const { answers } = JSON.parse(event.body);
 
-    // 获取 API Key
-    const apiKey = process.env.DEEPSEEK_API_KEY;
+    // 直接配置 API Key（从环境变量获取，如果没有则使用默认值）
+    const apiKey = process.env.DEEPSEEK_API_KEY || 'sk-53cffa1db0044246b57851dbe6bea801';
 
     if (!apiKey) {
       // 如果没有 API Key，返回本地生成的结果
